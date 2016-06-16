@@ -71,7 +71,7 @@ articleView.setTeasers = function() {
 articleView.initNewArticlePage = function() {
   $('.tab-content').show();
   $('#export-field').hide();
-  $('#article-json').on('focus', function(){
+  $('#article-json').on('focus', function() {
     this.select();
   });
 
@@ -107,10 +107,9 @@ articleView.create = function() {
 
 
 articleView.initIndexPage = function() {
-  Article.all.forEach(function(a){
+  Article.all.forEach(function(a) {
     $('#articles').append(a.toHtml())
   });
-
   articleView.populateFilters();
   articleView.handleCategoryFilter();
   articleView.handleAuthorFilter();
