@@ -1,6 +1,7 @@
+// (function(module) {
 // TODO: Wrap the entire contents of this file in an IIFE.
 // Pass in to the IIFE a module, upon which objects can be attached for later access.
-function Article (opts) {
+function Article(opts) {
   this.author = opts.author;
   this.authorUrl = opts.authorUrl;
   this.title = opts.title;
@@ -14,7 +15,7 @@ Article.all = [];
 Article.prototype.toHtml = function() {
   var template = Handlebars.compile($('#article-template').text());
 
-  this.daysAgo = parseInt((new Date() - new Date(this.publishedOn))/60/60/24/1000);
+  this.daysAgo = parseInt((new Date() - new Date(this.publishedOn)) / 60 / 60 / 24 / 1000);
   this.publishStatus = this.publishedOn ? 'published ' + this.daysAgo + ' days ago' : '(draft)';
   this.body = marked(this.body);
 
@@ -22,7 +23,7 @@ Article.prototype.toHtml = function() {
 };
 
 Article.loadAll = function(rawData) {
-  rawData.sort(function(a,b) {
+  rawData.sort(function(a, b) {
     return (new Date(b.publishedOn)) - (new Date(a.publishedOn));
   });
 
@@ -44,27 +45,30 @@ Article.loadAll = function(rawData) {
 // to execute once the loading of articles is done. We do this because we might want
 // to call other view functions, and not just this initIndexPage() that we are replacing.
 // Now, instead of calling articleView.initIndexPage(), we can simply run our callback.
-Article.fetchAll = function() {
+Article.fetchAll = function(viewFunction) {
   if (localStorage.rawData) {
     Article.loadAll(JSON.parse(localStorage.rawData));
-    articleView.initIndexPage();
+    viewFunction();
   } else {
     $.getJSON('/data/hackerIpsum.json', function(rawData) {
       Article.loadAll(rawData);
       localStorage.rawData = JSON.stringify(rawData); // Cache the json, so we don't need to request it next time.
-      articleView.initIndexPage();
+      viewFunction();
     });
   }
 };
 
-// TODO: Chain together a `map` and a `reduce` call to get a rough count of all words in all articles.
+// TODO: FINISHED Chain together a `map` and a `reduce` call to get a rough count of all words in all articles.
 Article.numWordsAll = function() {
   return Article.all.map(function(article) {
-    return // Get the total number of words in this article
-  })
-  .reduce(function(a, b) {
-    return // Sum up all the values in the collection
-  })
+      return article.body.split(' ').length;
+      console.log(wrods);
+      // Get the total number of words in this article
+    })
+    .reduce(function(a, b) {
+      return a + b;
+      // return // Sum up all the values in the collection
+    })
 };
 
 // TODO: Chain together a `map` and a `reduce` call to produce an array of unique author names.
@@ -81,3 +85,4 @@ Article.numWordsByAuthor = function() {
     }
   })
 };
+// })();
