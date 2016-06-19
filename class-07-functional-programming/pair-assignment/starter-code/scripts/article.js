@@ -62,7 +62,6 @@ Article.fetchAll = function(viewFunction) {
 Article.numWordsAll = function() {
   return Article.all.map(function(article) {
       return article.body.split(' ').length;
-      console.log(wrods);
       // Get the total number of words in this article
     })
     .reduce(function(a, b) {
@@ -73,7 +72,12 @@ Article.numWordsAll = function() {
 
 // TODO: Chain together a `map` and a `reduce` call to produce an array of unique author names.
 Article.allAuthors = function() {
-  return // Don't forget to read the docs on map and reduce!
+  return Article.all.map(function(article) {
+    return article.author;
+  }).reduce(function(a, b) {
+    if (a.indexOf(b) < 0) a.push(b)
+    return a;
+  }, [])// Don't forget to read the docs on map and reduce
 };
 
 Article.numWordsByAuthor = function() {
@@ -81,6 +85,16 @@ Article.numWordsByAuthor = function() {
   // the author's name, and one for the total number of words across all articles written by the specified author.
   return Article.allAuthors().map(function(author) {
     return {
+      name: author,
+      totalWords: Article.all.reduce(function(a, b) {
+        if (b.author === author) {
+          a.push(b.body.split(" ").length);
+        };
+        return a;
+      }, []).reduce(function(a, b) {
+        return a + b;
+      }, 0)
+
       // someKey: someValOrFunctionCall().map(...).reduce(...), ...
     }
   })
