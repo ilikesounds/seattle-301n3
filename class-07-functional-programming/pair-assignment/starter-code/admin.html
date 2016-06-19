@@ -12,7 +12,7 @@
     </head>
     <!-- DONE: Setup a template for each row of the Author Stats section of this page: -->
     <script id="author-template" type="text/x-handlebars-template">
-      <li><strong>{{name}}</strong>: {{numWords}} words written</li>
+      <li><strong>{{name}}</strong>: {{totalWords}} words written</li>
     </script>
   <body>
     <header class="site-header clearfix">
@@ -54,6 +54,7 @@
     <script>
       // TODO: After we fetch and load all the articles, what view function do we want to run next?
       // Let's pass in a callback function, to determine what happens AFTER all articles are loaded.
+      Article.fetchAll(articleView.initAdminPage)
     </script>
   </body>
 </html>

@@ -75,7 +75,7 @@
   articleView.initNewArticlePage = function() {
     $('.tab-content').show();
     $('#export-field').hide();
-    $('#article-json').on('focus', function(){
+    $('#article-json').on('focus', function() {
       this.select();
     });
 
@@ -108,7 +108,7 @@
   };
 
   articleView.initIndexPage = function() {
-    Article.all.forEach(function(a){
+    Article.all.forEach(function(a) {
       $('#articles').append(a.toHtml())
     });
 
@@ -122,7 +122,9 @@
 
   articleView.initAdminPage = function() {
     // TODO: Call the Handlebars `.compile` function, which will return a function for you to use where needed.
-    var template; // = ...?
+    var template = Handlebars.compile($('#author-template').html());
+    // var store = template(this);
+    // return store;
 
     // DONE: We use `forEach` here because we are relying on the side-effects of the callback function:
     // appending to the DOM.
