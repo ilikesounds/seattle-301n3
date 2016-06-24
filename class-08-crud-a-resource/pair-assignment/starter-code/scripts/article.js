@@ -22,7 +22,7 @@
   // TODO: Set up a DB table for articles.
   Article.createTable = function(callback) {
     webDB.execute(
-      'CREATE TABLE artDB (id INTEGER PRIMARY KEY, title TEXT, category TEXT, author TEXT, authorUrl TEXT, publishedOn DATE, body TEXT );', // what SQL command do we run here inside these quotes?
+      'CREATE TABLE IF NOT EXIST artDB (id INTEGER PRIMARY KEY, title TEXT, category TEXT, author TEXT, authorUrl TEXT, publishedOn DATE, body TEXT );', // what SQL command do we run here inside these quotes?
       function(result) {
         console.log('Successfully set up the articles table.', result);
         console.log(callback);
@@ -56,7 +56,7 @@
     webDB.execute(
       [{
         'sql': 'DELETE FROM artDB WHERE ?',
-        'data': [this.title]
+        'data': [this.id]
       }],
       callback
     );
@@ -66,8 +66,8 @@
   Article.prototype.updateRecord = function(callback) {
     webDB.execute(
       [{
-        'sql': 'UPDATE artDB SET title, SET category = ?, SET author = ?, SET authorUrl = ? SET publishedOn = ? SET body = ?',
-        'data': [this.title, this.category, this.author, this.authorUrl, this.publishedOn, this.body]
+        'sql': 'UPDATE artDB SET title = ?, category = ?, author = ?, authorUrl = ?, publishedOn = ?, body = ?, WHERE id = ?;',
+        'data': [this.title, this.category, this.author, this.authorUrl, this.publishedOn, this.body, this.id]
       }],
       callback
     );
