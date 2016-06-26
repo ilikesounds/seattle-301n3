@@ -9,21 +9,25 @@ function initMap() {
     zoom: 8
   });
 
-  // TODO: Follow the Google Maps API docs to create markers on the map based on the search options on the home page.
+  // TODO: DONE Follow the Google Maps API docs to create markers on the map based on the search options on the home page.
 }
 
-function dropMarkers(lat, lng) {
+function dropMarkers(objects) {
   var marker = {};
-  var myLatlng = new google.maps.LatLng(lat, lng);
+  var lat0 = objects[0].latitude;
+  var lng0 = objects[0].longitude;
+  var myLatlng = new google.maps.LatLng(lat0, lng0);
+  console.log(myLatlng);
   var mapOptions = {
     zoom: 4,
     center: myLatlng
   }
   var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-  var marker['marker' + i] = new google.maps.Marker({
-    position: myLatlng,
-    map: map,
-    title: cityName,
-  });
-  marker.setMap(map);
+  for (var i = 0; i < objects.length; i++) {
+    marker["marker" + i] = new google.maps.Marker({
+      position: {lat: objects[i].latitude, lng: objects[i].longitude},
+      map: map
+    });
+  }
+
 }

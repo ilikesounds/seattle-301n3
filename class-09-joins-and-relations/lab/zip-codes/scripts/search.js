@@ -1,8 +1,13 @@
-// (function(module) {
+(function(module) {
+
+$(document).ready(function() {
+  Filter.searchBox();
+  Filter.populateState();
+})
 
 var MarkerObj = {};
 var Filter = {};
-// TODO: Write the code to populate your filters, and enable the search queries here in search.js
+// TODO: DONE Write the code to populate your filters, and enable the search queries here in search.js
 // TODO: You will also interact with the map.js file here
 
 Filter.searchBox = function() {
@@ -20,7 +25,7 @@ Filter.searchBox = function() {
           alert('That zip code does not exist in our database, please try another zip code.');
           zipCodes = null;
         } else {
-          dropMarkers(zipCodes[0].latitude, zipCodes[0].longitude);
+          dropMarkers(zipCodes);
         }
       })
     }
@@ -43,6 +48,7 @@ Filter.populateState = function() {
 Filter.setCity = function() {
   var result;
   $('#state-select').on('change', function() {
+    $('#zipSearch').val("");
     $("#initial-city").siblings().remove();
     result = "'" + $(this).val() + "'";
     Filter.populateCity(result);
@@ -69,30 +75,11 @@ Filter.selectCity = function() {
       resultCity = $(this).val();
       webDB.execute('SELECT * FROM zips WHERE city =' + '"' + resultCity + '"' + ' AND state =' + '"' + resultState + '";',
         function(cities) {
-          var marker = {};
-          var myLatlng = {};
-          for (var i = 0; i < cities.length; i++) {
-            console.log(marker);
-            var myLatlng2 = {
-              'lat': cities[0][1],
-              'lng': cities[0][2]
-            }
-            console.log(cities[i][1], cities[i][2]);
-
-            var mapOptions = {
-              zoom: 4,
-              center: myLatlng2
-            }
-            var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-            marker["marker" + i] = new google.maps.Marker({
-              position: myLatlng["myLatlng" + i] = new google.maps.LatLng(cities[i][1], cities[i][2]),
-              map: map,
-            });
-            // console.log(cities[i]);
-            // dropMarkers(cities[i].latitude, cities[i].longitude);
-          }
-
-        })
+          console.log(cities);
+          dropMarkers(cities);
     })
-  }
-  // })(window)
+  })
+}
+
+module.Filter = Filter;
+  })(window)
