@@ -14,9 +14,7 @@ function initMap() {
 
 function dropMarkers(objects) {
   var marker = {};
-  var lat0 = objects[0].latitude;
-  var lng0 = objects[0].longitude;
-  var myLatlng = new google.maps.LatLng(lat0, lng0);
+  var myLatlng = new google.maps.LatLng(objects[0].latitude, objects[0].longitude);
   console.log(myLatlng);
   var mapOptions = {
     zoom: 4,
