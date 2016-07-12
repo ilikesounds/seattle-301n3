@@ -13,6 +13,12 @@
   };
 
   // COMMENT: What does this method do?  What is it's execution path?
+  /*
+  Summary: this method handles the population of the blog filters. the template
+  variable holds the HTML template where data can be populated based on the index.html.
+  Options is an array that is populated by the articles of the selected author
+  from the drop-down.
+  */
   articleView.populateFilters = function() {
     var options,
       template = Handlebars.compile($('#option-template').text());
@@ -23,9 +29,16 @@
     if ($('#author-filter option').length < 2) { // Prevent duplication
       $('#author-filter').append(options);
     };
-
+  /*
+    if the amount of articles in Options is less than 2, the articles are appended
+    to the author article id.
+  */
     // Example of using model method with async, SQL-based approach:
     // This approach is DOM-independent, since it reads from the DB directly.
+    /*
+      Articles.allCategories appends the category filter with each element in "rows"
+      which returns the template with the value inside the row.category property
+    */
     Article.allCategories(function(rows) {
       if ($('#category-filter option').length < 2) {
         $('#category-filter').append(
@@ -38,6 +51,10 @@
   };
 
   // COMMENT: What does this method do?  What is it's execution path?
+  /*
+    when the filters ID triggers an event change, the selected value's ID is assigned
+    into the "resource" variable and then passed as a route.
+  */
   articleView.handleFilters = function() {
     $('#filters').one('change', 'select', function() {
       resource = this.id.replace('-filter', '');
@@ -124,6 +141,10 @@
   };
 
   // COMMENT: What does this method do?  What is it's execution path?
+  /*
+    when this method is invoked, all article IDs are shown and their siblings are
+    hidden, all article elements under the article ID are removed and appended again
+  */
   articleView.index = function(articles) {
     $('#articles').show().siblings().hide();
 
@@ -134,6 +155,14 @@
 
     articleView.populateFilters();
     // COMMENT: What does this method do?  What is it's execution path?
+    /*
+      populateFilters() generate the data on the data filter html element, these
+      include getting all of the author data on Article.allAuthors() and
+      Article.allCategories()
+
+      handleFilters() are attaching the events and doing the routing when the
+      event is fired.
+    */
     articleView.handleFilters();
 
     // DONE: Replace setTeasers with just the truncation logic, if needed:
